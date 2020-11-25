@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CrossLinkDBModelStoreContainer" CdmEntityContainer="DataAcessConnection">
+    <EntitySetMapping Name="Page_Details">
+      <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Details">
+        <MappingFragment StoreEntitySet="Page_Details">
+          <ScalarProperty Name="pageId" ColumnName="pageId" />
+          <ScalarProperty Name="owner" ColumnName="owner" />
+          <ScalarProperty Name="isOwnedPage" ColumnName="isOwnedPage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Page_Content">
+      <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Content">
+        <MappingFragment StoreEntitySet="Page_Content">
+          <ScalarProperty Name="header" ColumnName="header" />
+          <ScalarProperty Name="footer" ColumnName="footer" />
+          <ScalarProperty Name="content" ColumnName="content" />
+          <ScalarProperty Name="pageId" ColumnName="pageId" />
+          <ScalarProperty Name="version" ColumnName="version" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Details">
+      <EntityTypeMapping TypeName="CrossLinkDBModel.User_Details">
+        <MappingFragment StoreEntitySet="User_Details">
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="user_first_name" ColumnName="user_first_name" />
+          <ScalarProperty Name="user_last_name" ColumnName="user_last_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Versions">
+      <EntityTypeMapping TypeName="CrossLinkDBModel.Version">
+        <MappingFragment StoreEntitySet="Versions">
+          <ScalarProperty Name="pageId" ColumnName="pageId" />
+          <ScalarProperty Name="version1" ColumnName="version" />
+          <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

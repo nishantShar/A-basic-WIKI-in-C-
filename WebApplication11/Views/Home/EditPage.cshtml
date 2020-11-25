@@ -1,0 +1,44 @@
+﻿@model WebApplication11.Models.MarkDownPageModel
+@{
+    ViewBag.Title = "EditPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    function saveChanges() {
+        $.get('/Home/SaveChanges/', { pageId: $("#pageIdDiv").html(), headerContent: $("#txtHeader").val(), bodyContent: $("#txtBody").val() }, function (data) {
+            $("#divSuccess").show().delay(5000).fadeOut();
+        });
+    }
+    $(document).ready(function () {
+        $("#divSuccess").hide();
+        $('#pageBody').focusout(function () {   
+            isChanged = true;
+        });
+        $('#pageHeader').focusout(function () {
+            isChanged = true;
+        });
+        var stringvalue = `@Html.Raw(ViewBag.markDownPageViewModel.Content)`;
+        $('#txtBody').val(stringvalue);
+    });
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div id="divSuccess" class="alert alert-success" role="alert">
+            Page updated successfully..!!
+        </div>
+        <div id="pageIdDiv" hidden="hidden">@ViewBag.markDownPageViewModel.PageId</div>
+        <div class="form-group">
+            <label>Header Content</label>
+            <input class="form-control" id="txtHeader" placeholder="Page Header.." value="@ViewBag.markDownPageViewModel.Header">
+        </div>
+
+        <div class="form-group">
+            <label>Body Content</label>
+            <textarea class="form-control" id="txtBody" rows="15" cols="29"></textarea>
+            <small id="markDownHelp" class="form-text text-muted" placeholder="Page Body..">Enter content in MarkDown format.</small>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
+        </div>
+    </div>
+</div>

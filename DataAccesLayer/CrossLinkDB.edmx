@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CrossLinkDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Page_Content">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="header" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="footer" Type="nvarchar" MaxLength="150" />
+          <Property Name="content" Type="text" Nullable="false" />
+          <Property Name="pageId" Type="int" Nullable="false" />
+          <Property Name="version" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Page_Details">
+          <Key>
+            <PropertyRef Name="pageId" />
+          </Key>
+          <Property Name="pageId" Type="int" Nullable="false" />
+          <Property Name="owner" Type="nvarchar" MaxLength="50" />
+          <Property Name="isOwnedPage" Type="bit" />
+          <Property Name="id" Type="int" />
+        </EntityType>
+        <EntityType Name="Page_Latest_Version">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pageId" Type="int" Nullable="false" />
+          <Property Name="latestVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Details">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isadmin" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Page_Content_Page_Details">
+          <End Role="Page_Details" Type="Self.Page_Details" Multiplicity="1" />
+          <End Role="Page_Content" Type="Self.Page_Content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page_Details">
+              <PropertyRef Name="pageId" />
+            </Principal>
+            <Dependent Role="Page_Content">
+              <PropertyRef Name="pageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Page_Details_User_Details">
+          <End Role="User_Details" Type="Self.User_Details" Multiplicity="0..1" />
+          <End Role="Page_Details" Type="Self.Page_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Details">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Page_Details">
+              <PropertyRef Name="owner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Page_Latest_Version_Page_Details">
+          <End Role="Page_Details" Type="Self.Page_Details" Multiplicity="1" />
+          <End Role="Page_Latest_Version" Type="Self.Page_Latest_Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page_Details">
+              <PropertyRef Name="pageId" />
+            </Principal>
+            <Dependent Role="Page_Latest_Version">
+              <PropertyRef Name="pageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CrossLinkDBModelStoreContainer">
+          <EntitySet Name="Page_Content" EntityType="Self.Page_Content" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Page_Details" EntityType="Self.Page_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Page_Latest_Version" EntityType="Self.Page_Latest_Version" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Details" EntityType="Self.User_Details" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Page_Content_Page_Details" Association="Self.FK_Page_Content_Page_Details">
+            <End Role="Page_Details" EntitySet="Page_Details" />
+            <End Role="Page_Content" EntitySet="Page_Content" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Page_Details_User_Details" Association="Self.FK_Page_Details_User_Details">
+            <End Role="User_Details" EntitySet="User_Details" />
+            <End Role="Page_Details" EntitySet="Page_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Page_Latest_Version_Page_Details" Association="Self.FK_Page_Latest_Version_Page_Details">
+            <End Role="Page_Details" EntitySet="Page_Details" />
+            <End Role="Page_Latest_Version" EntitySet="Page_Latest_Version" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CrossLinkDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Page_Content">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="header" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="footer" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pageId" Type="Int32" Nullable="false" />
+          <Property Name="version" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Page_Details" Relationship="Self.FK_Page_Content_Page_Details" FromRole="Page_Content" ToRole="Page_Details" />
+        </EntityType>
+        <EntityType Name="Page_Details">
+          <Key>
+            <PropertyRef Name="pageId" />
+          </Key>
+          <Property Name="pageId" Type="Int32" Nullable="false" />
+          <Property Name="owner" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isOwnedPage" Type="Boolean" />
+          <Property Name="id" Type="Int32" />
+          <NavigationProperty Name="Page_Content" Relationship="Self.FK_Page_Content_Page_Details" FromRole="Page_Details" ToRole="Page_Content" />
+          <NavigationProperty Name="User_Details" Relationship="Self.FK_Page_Details_User_Details" FromRole="Page_Details" ToRole="User_Details" />
+          <NavigationProperty Name="Page_Latest_Version" Relationship="CrossLinkDBModel.FK_Page_Latest_Version_Page_Details" FromRole="Page_Details" ToRole="Page_Latest_Version" />
+        </EntityType>
+        <EntityType Name="User_Details">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Page_Details" Relationship="Self.FK_Page_Details_User_Details" FromRole="User_Details" ToRole="Page_Details" />
+          <Property Name="isadmin" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_Page_Content_Page_Details">
+          <End Role="Page_Details" Type="Self.Page_Details" Multiplicity="1" />
+          <End Role="Page_Content" Type="Self.Page_Content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page_Details">
+              <PropertyRef Name="pageId" />
+            </Principal>
+            <Dependent Role="Page_Content">
+              <PropertyRef Name="pageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Page_Details_User_Details">
+          <End Role="User_Details" Type="Self.User_Details" Multiplicity="0..1" />
+          <End Role="Page_Details" Type="Self.Page_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Details">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Page_Details">
+              <PropertyRef Name="owner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CrossLinkDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Page_Content" EntityType="Self.Page_Content" />
+          <EntitySet Name="Page_Details" EntityType="Self.Page_Details" />
+          <EntitySet Name="User_Details" EntityType="Self.User_Details" />
+          <AssociationSet Name="FK_Page_Content_Page_Details" Association="Self.FK_Page_Content_Page_Details">
+            <End Role="Page_Details" EntitySet="Page_Details" />
+            <End Role="Page_Content" EntitySet="Page_Content" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Page_Details_User_Details" Association="Self.FK_Page_Details_User_Details">
+            <End Role="User_Details" EntitySet="User_Details" />
+            <End Role="Page_Details" EntitySet="Page_Details" />
+          </AssociationSet>
+          <EntitySet Name="Page_Latest_Version" EntityType="CrossLinkDBModel.Page_Latest_Version" />
+          <AssociationSet Name="FK_Page_Latest_Version_Page_Details" Association="CrossLinkDBModel.FK_Page_Latest_Version_Page_Details">
+            <End Role="Page_Details" EntitySet="Page_Details" />
+            <End Role="Page_Latest_Version" EntitySet="Page_Latest_Version" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Page_Latest_Version">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pageId" Type="Int32" Nullable="false" />
+          <Property Name="latestVersion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Page_Details" Relationship="CrossLinkDBModel.FK_Page_Latest_Version_Page_Details" FromRole="Page_Latest_Version" ToRole="Page_Details" />
+        </EntityType>
+        <Association Name="FK_Page_Latest_Version_Page_Details">
+          <End Type="CrossLinkDBModel.Page_Details" Role="Page_Details" Multiplicity="1" />
+          <End Type="CrossLinkDBModel.Page_Latest_Version" Role="Page_Latest_Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Page_Details">
+              <PropertyRef Name="pageId" />
+            </Principal>
+            <Dependent Role="Page_Latest_Version">
+              <PropertyRef Name="pageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CrossLinkDBModelStoreContainer" CdmEntityContainer="CrossLinkDBEntities">
+          <EntitySetMapping Name="Page_Content">
+            <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Content">
+              <MappingFragment StoreEntitySet="Page_Content">
+                <ScalarProperty Name="header" ColumnName="header" />
+                <ScalarProperty Name="footer" ColumnName="footer" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="pageId" ColumnName="pageId" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Page_Details">
+            <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Details">
+              <MappingFragment StoreEntitySet="Page_Details">
+                <ScalarProperty Name="pageId" ColumnName="pageId" />
+                <ScalarProperty Name="owner" ColumnName="owner" />
+                <ScalarProperty Name="isOwnedPage" ColumnName="isOwnedPage" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Details">
+            <EntityTypeMapping TypeName="CrossLinkDBModel.User_Details">
+              <MappingFragment StoreEntitySet="User_Details">
+                <ScalarProperty Name="isadmin" ColumnName="isadmin" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="user_first_name" ColumnName="user_first_name" />
+                <ScalarProperty Name="user_last_name" ColumnName="user_last_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Page_Latest_Version">
+            <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Latest_Version">
+              <MappingFragment StoreEntitySet="Page_Latest_Version">
+                <ScalarProperty Name="latestVersion" ColumnName="latestVersion" />
+                <ScalarProperty Name="pageId" ColumnName="pageId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,71 @@
+﻿@model WebApplication11.Models.HtmlPageModel
+
+@{
+    ViewBag.Title = "ViewPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section JavaScript
+{
+    <script type="text/javascript" src="@Url.Content("/Scripts/CrossLinkScripts/viewpage.js")"></script>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@Session["username"].ToString()' == 'False') {
+            $("#btnRevert").hide();
+        }
+
+        var stringvalue = '@Html.Raw(ViewBag.pageViewModel.Content)';
+        alert('@Html.Raw(ViewBag.pageViewModel.Content)');
+        if ('@ViewBag.isOwned' == 'True' && '@Session["username"].ToString()' != '@ViewBag.UserName' && '@Session["isAdmin"].ToString()'== 'False') {
+            $("#divEditButton").hide();
+        }
+
+        $("#btnRevert").click(function () {
+            $.ajax({
+                url:'/Home/RevertLatestChanges/',
+                data: { pageNo: @ViewBag.pageViewModel.PageId, versionNo: @ViewBag.pageViewModel.Version },
+                type:'get',
+                success: function(data){
+                    alert(data);
+                    $.ajax({
+                        url:'/Home/ViewPage/',
+                        data:{ pageNo: data.pageNo, version: data.version },
+                        type:'get',
+                        success:function(data) {
+                        }
+                    });
+                },
+                error:function()
+                {
+                }
+            });
+        });
+
+        $('.mainContent').append(stringvalue.replace(/'/g, "\\'"));
+    });
+</script>
+<div class="row">
+    <div class="col-12">
+        <div id="divEditButton">
+            @Html.ActionLink("Edit Page", "EditPage", "Home", new { pageNo = @ViewBag.pageViewModel.PageId, versionNo = @ViewBag.pageViewModel.Version }, new { @class = "btn btn-primary" })
+            <button type="submit" id="btnRevert" class="btn btn-primary">Revert latest chagnes</button>
+        </div>
+        <div id="divSuccess" class="alert alert-success" role="alert" style="display:none">
+            Page Reverted successfully..!!
+        </div>
+
+        <hr />
+        <div id="wrapper">
+            <div id="page-content">
+                <div class="centerText ">
+                    @ViewBag.pageViewModel.Header
+                </div>
+            </div>
+            <div id="page-content">
+                <div class="centerText mainContent">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

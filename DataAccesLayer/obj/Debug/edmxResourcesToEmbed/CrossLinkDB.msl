@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CrossLinkDBModelStoreContainer" CdmEntityContainer="CrossLinkDBEntities">
+    <EntitySetMapping Name="Page_Content">
+      <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Content">
+        <MappingFragment StoreEntitySet="Page_Content">
+          <ScalarProperty Name="header" ColumnName="header" />
+          <ScalarProperty Name="footer" ColumnName="footer" />
+          <ScalarProperty Name="content" ColumnName="content" />
+          <ScalarProperty Name="pageId" ColumnName="pageId" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Page_Details">
+      <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Details">
+        <MappingFragment StoreEntitySet="Page_Details">
+          <ScalarProperty Name="pageId" ColumnName="pageId" />
+          <ScalarProperty Name="owner" ColumnName="owner" />
+          <ScalarProperty Name="isOwnedPage" ColumnName="isOwnedPage" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Details">
+      <EntityTypeMapping TypeName="CrossLinkDBModel.User_Details">
+        <MappingFragment StoreEntitySet="User_Details">
+          <ScalarProperty Name="isadmin" ColumnName="isadmin" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="user_first_name" ColumnName="user_first_name" />
+          <ScalarProperty Name="user_last_name" ColumnName="user_last_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Page_Latest_Version">
+      <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Latest_Version">
+        <MappingFragment StoreEntitySet="Page_Latest_Version">
+          <ScalarProperty Name="latestVersion" ColumnName="latestVersion" />
+          <ScalarProperty Name="pageId" ColumnName="pageId" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

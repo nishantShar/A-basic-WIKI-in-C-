@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CrossLinkDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CrossLinkDB.dbo.Page_Content' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Page_Content">
+          <Key>
+            <PropertyRef Name="header" />
+            <PropertyRef Name="content" />
+            <PropertyRef Name="pageId" />
+            <PropertyRef Name="version" />
+          </Key>
+          <Property Name="header" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="footer" Type="nvarchar" MaxLength="150" />
+          <Property Name="content" Type="text" Nullable="false" />
+          <Property Name="pageId" Type="int" Nullable="false" />
+          <Property Name="version" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Page_Details">
+          <Key>
+            <PropertyRef Name="pageId" />
+          </Key>
+          <Property Name="pageId" Type="int" Nullable="false" />
+          <Property Name="owner" Type="nvarchar" MaxLength="50" />
+          <Property Name="isOwnedPage" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CrossLinkDB.dbo.User_Details' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="User_Details">
+          <Key>
+            <PropertyRef Name="password" />
+            <PropertyRef Name="user_first_name" />
+            <PropertyRef Name="user_last_name" />
+          </Key>
+          <Property Name="userId" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CrossLinkDB.dbo.Versions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Versions">
+          <Key>
+            <PropertyRef Name="pageId" />
+            <PropertyRef Name="version" />
+          </Key>
+          <Property Name="pageId" Type="int" Nullable="false" />
+          <Property Name="version" Type="int" Nullable="false" />
+          <Property Name="updatedBy" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="CrossLinkDBModelStoreContainer">
+          <EntitySet Name="Page_Details" EntityType="Self.Page_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Page_Content" EntityType="Self.Page_Content" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Page_Content].[header] AS [header], 
+    [Page_Content].[footer] AS [footer], 
+    [Page_Content].[content] AS [content], 
+    [Page_Content].[pageId] AS [pageId], 
+    [Page_Content].[version] AS [version]
+    FROM [dbo].[Page_Content] AS [Page_Content]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="User_Details" EntityType="Self.User_Details" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [User_Details].[userId] AS [userId], 
+    [User_Details].[password] AS [password], 
+    [User_Details].[user_first_name] AS [user_first_name], 
+    [User_Details].[user_last_name] AS [user_last_name]
+    FROM [dbo].[User_Details] AS [User_Details]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Versions" EntityType="Self.Versions" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Versions].[pageId] AS [pageId], 
+    [Versions].[version] AS [version], 
+    [Versions].[updatedBy] AS [updatedBy]
+    FROM [dbo].[Versions] AS [Versions]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CrossLinkDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Page_Details">
+          <Key>
+            <PropertyRef Name="pageId" />
+          </Key>
+          <Property Name="pageId" Type="Int32" Nullable="false" />
+          <Property Name="owner" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isOwnedPage" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Page_Content">
+          <Key>
+            <PropertyRef Name="header" />
+            <PropertyRef Name="content" />
+            <PropertyRef Name="pageId" />
+            <PropertyRef Name="version" />
+          </Key>
+          <Property Name="header" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="footer" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pageId" Type="Int32" Nullable="false" />
+          <Property Name="version" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Details">
+          <Key>
+            <PropertyRef Name="password" />
+            <PropertyRef Name="user_first_name" />
+            <PropertyRef Name="user_last_name" />
+          </Key>
+          <Property Name="userId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="pageId" />
+            <PropertyRef Name="version1" />
+          </Key>
+          <Property Name="pageId" Type="Int32" Nullable="false" />
+          <Property Name="version1" Type="Int32" Nullable="false" />
+          <Property Name="updatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="CrossLinkDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Page_Details" EntityType="Self.Page_Details" />
+          <EntitySet Name="Page_Content" EntityType="Self.Page_Content" />
+          <EntitySet Name="User_Details" EntityType="Self.User_Details" />
+          <EntitySet Name="Versions" EntityType="Self.Version" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CrossLinkDBModelStoreContainer" CdmEntityContainer="CrossLinkDBEntities1">
+          <EntitySetMapping Name="Page_Details">
+            <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Details">
+              <MappingFragment StoreEntitySet="Page_Details">
+                <ScalarProperty Name="pageId" ColumnName="pageId" />
+                <ScalarProperty Name="owner" ColumnName="owner" />
+                <ScalarProperty Name="isOwnedPage" ColumnName="isOwnedPage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Page_Content">
+            <EntityTypeMapping TypeName="CrossLinkDBModel.Page_Content">
+              <MappingFragment StoreEntitySet="Page_Content">
+                <ScalarProperty Name="header" ColumnName="header" />
+                <ScalarProperty Name="footer" ColumnName="footer" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="pageId" ColumnName="pageId" />
+                <ScalarProperty Name="version" ColumnName="version" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Details">
+            <EntityTypeMapping TypeName="CrossLinkDBModel.User_Details">
+              <MappingFragment StoreEntitySet="User_Details">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="user_first_name" ColumnName="user_first_name" />
+                <ScalarProperty Name="user_last_name" ColumnName="user_last_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Versions">
+            <EntityTypeMapping TypeName="CrossLinkDBModel.Version">
+              <MappingFragment StoreEntitySet="Versions">
+                <ScalarProperty Name="pageId" ColumnName="pageId" />
+                <ScalarProperty Name="version1" ColumnName="version" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

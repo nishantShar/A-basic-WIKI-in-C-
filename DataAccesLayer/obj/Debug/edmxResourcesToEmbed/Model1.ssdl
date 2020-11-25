@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CrossLinkDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Page_Content">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="header" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="footer" Type="nvarchar" MaxLength="150" />
+    <Property Name="content" Type="text" Nullable="false" />
+    <Property Name="pageId" Type="int" Nullable="false" />
+    <Property Name="version" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Page_Details">
+    <Key>
+      <PropertyRef Name="pageId" />
+    </Key>
+    <Property Name="pageId" Type="int" Nullable="false" />
+    <Property Name="owner" Type="nvarchar" MaxLength="50" />
+    <Property Name="isOwnedPage" Type="bit" />
+    <Property Name="id" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'CrossLinkDB.dbo.User_Details' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="User_Details">
+    <Key>
+      <PropertyRef Name="password" />
+      <PropertyRef Name="user_first_name" />
+      <PropertyRef Name="user_last_name" />
+    </Key>
+    <Property Name="userId" Type="nvarchar" MaxLength="50" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="user_first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="user_last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'CrossLinkDB.dbo.Versions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Versions">
+    <Key>
+      <PropertyRef Name="pageId" />
+      <PropertyRef Name="version" />
+    </Key>
+    <Property Name="pageId" Type="int" Nullable="false" />
+    <Property Name="version" Type="int" Nullable="false" />
+    <Property Name="updatedBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Page_Content_Page_Details">
+    <End Role="Page_Details" Type="Self.Page_Details" Multiplicity="1" />
+    <End Role="Page_Content" Type="Self.Page_Content" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Page_Details">
+        <PropertyRef Name="pageId" />
+      </Principal>
+      <Dependent Role="Page_Content">
+        <PropertyRef Name="pageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CrossLinkDBModelStoreContainer">
+    <EntitySet Name="Page_Content" EntityType="Self.Page_Content" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Page_Details" EntityType="Self.Page_Details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Details" EntityType="Self.User_Details" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [User_Details].[userId] AS [userId], 
+    [User_Details].[password] AS [password], 
+    [User_Details].[user_first_name] AS [user_first_name], 
+    [User_Details].[user_last_name] AS [user_last_name]
+    FROM [dbo].[User_Details] AS [User_Details]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Versions" EntityType="Self.Versions" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Versions].[pageId] AS [pageId], 
+    [Versions].[version] AS [version], 
+    [Versions].[updatedBy] AS [updatedBy]
+    FROM [dbo].[Versions] AS [Versions]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Page_Content_Page_Details" Association="Self.FK_Page_Content_Page_Details">
+      <End Role="Page_Details" EntitySet="Page_Details" />
+      <End Role="Page_Content" EntitySet="Page_Content" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
